@@ -17,9 +17,26 @@ repositories {
 	mavenCentral()
 }
 
+extra["springAiVersion"] = "2.0.0"
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.ai:spring-ai-bom:${property("springAiVersion")}")
+	}
+}
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	implementation("org.springframework.ai:spring-ai-starter-model-openai")
+	implementation("org.springframework.ai:spring-ai-starter-vector-store-elasticsearch")
+	implementation("org.springframework.ai:spring-ai-vector-store-advisor")
+	implementation("org.springframework.boot:spring-boot-starter-elasticsearch")
+
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")
