@@ -4,15 +4,13 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Builds the singleton ChatClient used by RagService from the auto-configured
- * ChatClient.Builder (which is wired to the OpenAI ChatModel via application.properties).
- */
 @Configuration
 public class ChatClientConfig {
 
-	@Bean
-	ChatClient chatClient(ChatClient.Builder builder) {
-		return builder.build();
-	}
+    // Spring does not auto-create any default ChatClient bean as it is meant to be customized once at build time -
+    // default system prompt, default advisors (like our QuestionAnswerAdvisor), default tools/options.
+    @Bean
+    ChatClient chatClient(ChatClient.Builder builder) {
+        return builder.build();
+    }
 }
