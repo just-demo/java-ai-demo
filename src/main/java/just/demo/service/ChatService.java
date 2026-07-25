@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,14 @@ public class ChatService {
     private final VectorStore vectorStore;
 
     public ChatResponse ask(String question) {
-        QuestionAnswerAdvisor qaAdvisor = QuestionAnswerAdvisor.builder(vectorStore).build();
+        QuestionAnswerAdvisor qaAdvisor = QuestionAnswerAdvisor.builder(vectorStore)
+                .searchRequest(SearchRequest.builder()
+                        // Fetching only 1 document because there are very few sample documents and all of them would
+                        // always be included because of similarityThreshold defaulted to 0.0. Another option could be
+                        // increasing similarityThreshold, but it would be a bit more difficult to find the right value.
+                        .topK(1)
+                        .build())
+                .build();
 
         org.springframework.ai.chat.model.ChatResponse aiResponse = chatClient.prompt()
                 .advisors(qaAdvisor)
