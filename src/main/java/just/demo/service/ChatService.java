@@ -2,7 +2,6 @@ package just.demo.service;
 
 import just.demo.dto.ChatResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.document.Document;
@@ -14,12 +13,11 @@ import java.util.Objects;
 
 import static org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor.RETRIEVED_DOCUMENTS;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChatService {
 
-    private static final String FILENAME_METADATA_KEY = "filename";
+    public static final String FILENAME_METADATA_KEY = "filename";
 
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
