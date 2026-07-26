@@ -38,14 +38,19 @@ public class SampleDocumentIndexer implements ApplicationRunner {
         // 3. Token limits for LLMs
         TokenTextSplitter splitter = TokenTextSplitter.builder().build();
         List<Document> documents = new ArrayList<>();
+        List<String> filenames = new ArrayList<>();
         for (Resource resource : resources) {
             TextReader reader = new TextReader(resource);
             reader.getCustomMetadata().put(FILENAME_METADATA_KEY, resource.getFilename());
             documents.addAll(splitter.apply(reader.get()));
+            filenames.add(resource.getFilename());
         }
 
-        // A workaround for deleting all documents
-        vectorStore.delete(new FilterExpressionBuilder().isNotNull(FILENAME_METADATA_KEY).build());
+        // A workaround for deleting all previously indexed documents. in() is used instead of isNotNull()
+        // because not every VectorStore implementation supports IS_NOT_NULL filters (e.g. PgVectorStore
+        // requires a right operand for every filter expression), so the filenames about to be re-indexed
+        // are matched explicitly instead.
+        vectorStore.delete(new FilterExpressionBuilder().in(FILENAME_METADATA_KEY, filenames.toArray()).build());
         vectorStore.add(documents);
     }
 }

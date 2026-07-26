@@ -1,9 +1,18 @@
 # Spring AI RAG Demo
 
-## 1. Start Elasticsearch
+## 1. Start the vector store
+
+PgVector:
 
 ```bash
-docker compose up --force-recreate
+COMPOSE_PROFILES=pgvector docker compose up --force-recreate
+docker compose ps
+```
+
+Elasticsearch:
+
+```bash
+COMPOSE_PROFILES=elasticsearch docker compose up --force-recreate
 docker compose ps
 curl http://localhost:9200/_cluster/health?pretty
 ```
@@ -22,7 +31,8 @@ Run `just.demo.JavaAiDemoApplication` from IDE or with
 
 On first startup the app:
 
-* creates the `rag-documents` Elasticsearch index (schema initialization)
+* creates the vector store schema (Elasticsearch `rag-documents` index, or the Postgres `vector_store` table) via schema
+  initialization
 * ingests the sample Markdown documents from `src/main/resources/documents/` into the vector store
 
 ## 4. Verify
@@ -30,11 +40,17 @@ On first startup the app:
 * Swagger UI: http://localhost:8080/swagger-ui.html
 * Elasticsearch index document count: `curl http://localhost:9200/rag-documents/_count`
 * Elasticsearch index documents: `curl http://localhost:9200/rag-documents/_search`
+* PgVector document count: `select count(*) from vector_store`
+
+## Switching vector stores
+
+`-Dspring.profiles.active=<pgvector|elasticsearch>`
 
 ## How RAG works here
 
 1. Your question is embedded with `text-embedding-3-small` and compared against document
-   chunk embeddings stored in Elasticsearch using cosine similarity.
+   chunk embeddings stored in the vector store (Elasticsearch or PgVector) using cosine
+   similarity.
 2. The top matching chunks are retrieved and injected into the prompt by
    `QuestionAnswerAdvisor` (a Spring AI `ChatClient` advisor).
 3. `gpt-4.1-nano` generates an answer grounded in that retrieved context.
