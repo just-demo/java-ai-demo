@@ -40,7 +40,8 @@ On first startup the app:
 * Swagger UI: http://localhost:8080/swagger-ui.html
 * Elasticsearch index document count: `GET http://localhost:9200/rag-documents/_count`
 * Elasticsearch index documents: `GET http://localhost:9200/rag-documents/_search?_source_includes=*`
-* PgVector document count: `select count(*) from vector_store`
+* PgVector documents: connect to `localhost:5433` (see credentials in `docker-compose.yml`) and run the query
+  `select * from vector_store`
 
 ## Switching vector stores
 
