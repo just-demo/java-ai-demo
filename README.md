@@ -47,5 +47,5 @@ conversation, via Spring AI's `MessageChatMemoryAdvisor`.
 
 * Omit `conversationId` on the first call; the server generates one and returns it in the
   response. Pass it back on subsequent calls to continue the same conversation.
-* Conversation history is held in an in-memory `ChatMemory` (Spring AI's default
-  `MessageWindowChatMemory`) - it's process-local and does not survive an app restart.
+* Conversation history is persisted in PostgreSQL (table `SPRING_AI_CHAT_MEMORY`, schema
+  auto-initialized on startup) via Spring AI's JDBC-backed `ChatMemory` - it survives an app restart.

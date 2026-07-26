@@ -37,6 +37,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	runtimeOnly("org.postgresql:postgresql")
 
+	implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc")
+
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0")
 
 	compileOnly("org.projectlombok:lombok")
