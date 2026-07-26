@@ -3,6 +3,7 @@ package just.demo;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 
@@ -10,6 +11,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 		"spring.ai.openai.api-key=test-key",
 		"app.document-indexing.enabled=false"
 })
+@Import(TestcontainersConfiguration.class)
 class JavaAiDemoApplicationTests {
 
 	@MockitoBean
