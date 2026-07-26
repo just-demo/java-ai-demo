@@ -13,6 +13,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
@@ -24,8 +25,8 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(properties = {
         "spring.ai.openai.api-key=test-key",
         "app.document-indexing.enabled=false",
-        "spring.profiles.active=test"
 })
+@ActiveProfiles("test")
 class ChatServiceTest {
 
     @MockitoBean
