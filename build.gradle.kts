@@ -33,9 +33,6 @@ dependencies {
 	implementation("org.springframework.ai:spring-ai-starter-model-openai")
 	implementation("org.springframework.ai:spring-ai-vector-store-advisor")
 
-	implementation("org.springframework.ai:spring-ai-starter-vector-store-elasticsearch")
-	implementation("org.springframework.boot:spring-boot-starter-elasticsearch")
-
 	implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	runtimeOnly("org.postgresql:postgresql")
